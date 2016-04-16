@@ -1,6 +1,8 @@
 -module (terakol_users_handler).
 -include("terakol.hrl").
 
+-import (terakol_auth_handler, [ensure_exists/2]).
+
 -export([init/3]).
 -export([allowed_methods/2]).
 -export([content_types_provided/2]).
@@ -52,6 +54,7 @@ create_user(Req, State) ->
     {ok, Body, Req1} = cowboy_req:body(Req),
     % ?INFO("Body: ~p", [Body]),
     Data = jsx:decode(Body, [return_maps]),
+    ensure_exists([<<"id">>, <<"password">>], Data),
     % ?INFO("Data: ~p", [Data]),
     Password = maps:get(<<"password">>, Data),
     Id = maps:get(<<"id">>, Data),

@@ -17,10 +17,11 @@ start_phase(start_listeners, _StartType, []) ->
     application:get_env(terakol, http),
   Dispatch = cowboy_router:compile([
     {'_', [
+      {<<"/api/auth">>, terakol_auth_handler, []},
       {<<"/api/users">>, terakol_users_handler, []},
       {<<"/api/users/:id">>, terakol_users_update_handler, []},
       {<<"/api/media">>, terakol_media_handler, []},
-      {<<"/upload">>, terakol_upload_handler, []}
+      {<<"/api/upload">>, terakol_upload_handler, []}
     ]}
   ]),
   RanchOptions = [{port, Port}],

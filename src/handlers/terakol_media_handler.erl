@@ -4,10 +4,10 @@
 -export([init/3]).
 -export([allowed_methods/2]).
 -export([content_types_provided/2]).
--export([content_types_accepted/2]).
+% -export([content_types_accepted/2]).
 
 % Implementation
--export([create_media/2]).
+% -export([create_media/2]).
 -export([list_media/2]).
 
 %%% ===========================================================================
@@ -17,15 +17,15 @@ init(_Transport, _Req, []) ->
   {upgrade, protocol, cowboy_rest}.
 
 allowed_methods(Req, State) ->
-  {[<<"GET">>, <<"POST">>], Req, State}.
+  {[<<"GET">>], Req, State}.
 
 %  for GET
 content_types_provided(Req, State) ->
   {[{{<<"application">>, <<"json">>, []}, list_media}], Req, State}.
 
 % for POST
-content_types_accepted(Req, State) ->
-  {[{{<<"application">>, <<"json">>, []}, create_media}], Req, State}.
+% content_types_accepted(Req, State) ->
+%   {[{{<<"application">>, <<"json">>, []}, create_media}], Req, State}.
 
 list_media(Req, State) ->
   URL = get_URL(select, <<"localhost">>, 8983),
@@ -39,19 +39,19 @@ list_media(Req, State) ->
       {jsx:encode([]), Req, State}
   end.
 
-create_media(Req, State) ->
-  {ok, Headers, Req2} = cowboy_req:part(Req),
-	{ok, Data, Req3} = cowboy_req:part_body(Req2),
-	{file, <<"inputfile">>, Filename, ContentType, _TE}
-		= cow_multipart:form_data(Headers),
-	io:format("Received file ~p of content-type ~p as follow:~n~p~n~n",
-		[Filename, ContentType, Data]),
-  {false, Req3, State}.
+% create_media(Req, State) ->
+%   {ok, Headers, Req2} = cowboy_req:part(Req),
+% 	{ok, Data, Req3} = cowboy_req:part_body(Req2),
+% 	{file, <<"inputfile">>, Filename, ContentType, _TE}
+% 		= cow_multipart:form_data(Headers),
+% 	io:format("Received file ~p of content-type ~p as follow:~n~p~n~n",
+% 		[Filename, ContentType, Data]),
+%   {false, Req3, State}.
 
-  %%% ===========================================================================
-  %%% private functions
-  %%% ===========================================================================
-  get_URL(select, Host, Port) ->
-    ?FMT("http://~s:~p/solr/media/select?wt=json&q=*:*", [Host, Port]);
-  get_URL(update, Host, Port) ->
-    ?FMT("http://~s:~p/solr/media/update/json/docs?commit=true", [Host, Port]).
+%%% ===========================================================================
+%%% private functions
+%%% ===========================================================================
+get_URL(select, Host, Port) ->
+  ?FMT("http://~s:~p/solr/media/select?wt=json&q=*:*", [Host, Port]);
+get_URL(update, Host, Port) ->
+  ?FMT("http://~s:~p/solr/media/update/json/docs?commit=true", [Host, Port]).
