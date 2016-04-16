@@ -1,0 +1,19 @@
+{application, terakol, [
+	{description, "A REST Server atop Solr Engine"},
+	{vsn, "1.0.0"},
+	{modules, []},
+	{registered, [terakol_sup]},
+	{applications, [
+    kernel, stdlib, cowboy, lager, jsx, sync, iso8601,
+    uuid, erlpass, sync, ibrowse]},
+	{mod, {terakol_app, []}},
+  {start_phases, [
+    {start_listeners, []}
+  ]},
+  {env, [
+    {http, [
+      {port, 5000},
+      {listeners, 10}
+    ]}
+  ]}
+]}.
