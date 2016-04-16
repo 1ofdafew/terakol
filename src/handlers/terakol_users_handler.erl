@@ -68,7 +68,7 @@ create_user(Req, State) ->
     case ?HTTP_POST(URL, JSON) of
       {ok, "200", _, _Resp} ->
         ?INFO("Adding user is ok"),
-        URI = <<"/api/users/", Id/binary >>,
+        URI = <<"/api/users/", Id/binary>>,
         {{true, URI}, Req1, State};
       {ok, Code, _, Resp} ->
         ?ERROR("Error adding user: ~p:~p", [Code, Resp]),
