@@ -4,6 +4,7 @@
 -import (terakol_auth_handler, [ensure_exists/2]).
 
 -export([init/3]).
+-export([is_authorized/2]).
 -export([allowed_methods/2]).
 -export([content_types_provided/2]).
 -export([content_types_accepted/2]).
@@ -29,11 +30,36 @@ content_types_provided(Req, State) ->
 content_types_accepted(Req, State) ->
   {[{{<<"application">>, <<"json">>, []}, create_user}], Req, State}.
 
+is_authorized(Req, State) ->
+  {ok, Auth, Req1} = cowboy_req:parse_header(<<"authorization">>, Req),
+  case Auth of
+    {<<"basic">>, {Key, Val}} ->
+      case Key =:= <<"token">> of
+        true ->
+          % process it
+          % ?DEBUG("Key: ~p, Val: ~p", [Key, Val]),
+          case session_worker:get_session(Val) of
+            {error, _} ->
+              {{false, <<"Basic realm=\"Terakol API V1.0.0\"">>}, Req1, State};
+          	[{_Token, Email}] ->
+              ?INFO("User ~p authenticated successfully..", [Email]),
+          		{true, Req1, Email}
+          end;
+        _ ->
+          ?ERROR("Invalid Attempt: ~p => ~p", [Key, Val]),
+          {{false, <<"Basic realm=\"Terakol API V1.0.0\"">>}, Req1, State}
+      end;
+    _ ->
+      ?ERROR("Invalid Attempt: No Authorization keys.."),
+      {{false, <<"Basic realm=\"Terakol API V1.0.0\"">>}, Req1, State}
+  end.
+
 list_users(Req, State) ->
   URL = get_URL(select, <<"localhost">>, 8983),
   ?INFO("Running for URL: ~p", [URL]),
   case ?HTTP_GET(URL) of
     {ok, _Code, _Headers, Body} ->
+      ?DEBUG("Resp Body: ~p", [Body]),
       Res = jsx:decode(Body, [return_maps]),
       ResHeader = maps:get(<<"responseHeader">>, Res),
       case maps:get(<<"status">>, ResHeader) of

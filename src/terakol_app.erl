@@ -21,7 +21,12 @@ start_phase(start_listeners, _StartType, []) ->
       {<<"/api/users">>, terakol_users_handler, []},
       {<<"/api/users/:id">>, terakol_users_update_handler, []},
       {<<"/api/media">>, terakol_media_handler, []},
-      {<<"/api/upload">>, terakol_upload_handler, []}
+      {<<"/api/upload">>, terakol_upload_handler, []},
+
+      % our admin UI
+      {<<"/">>, cowboy_static, {priv_file, terakol, "dist/index.html"}},
+			{<<"/static/[...]">>, cowboy_static, {priv_dir, terakol, "dist/static",
+				[{mimetypes, cow_mimetypes, all}]}}
     ]}
   ]),
   RanchOptions = [{port, Port}],

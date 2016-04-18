@@ -25,3 +25,6 @@
   ibrowse:send_req(URL, ?IB_HEADER, post, JSON, ?IB_OPTS, ?IB_TIMEOUT)).
 -define(HTTP_GET(URL),
   ibrowse:send_req(URL, [], get, [], ?IB_OPTS, ?IB_TIMEOUT)).
+
+% Our session store
+-record(terakol_session, {key, val, expiry, timestamp = calendar:local_time()}).

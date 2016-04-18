@@ -27,27 +27,34 @@ process_auth(Req, State) ->
   try
     {ok, Body, Req1} = cowboy_req:body(Req),
     Data = jsx:decode(Body, [return_maps]),
-    % ?DEBUG("Data: ~p", [Data]),
+    ?DEBUG("Data: ~p", [Data]),
     ensure_exists([<<"id">>, <<"password">>], Data),
 
     Id = maps:get(<<"id">>, Data),
     {ok, [User]} = fetch_user_data(Id),
-    % ?DEBUG("User: ~p", [User]),
+    ?DEBUG("User: ~p", [User]),
     Pass = maps:get(<<"password">>, Data),
     Hash = maps:get(<<"password">>, User),
     case erlpass:match(Pass, Hash) of
       true ->
         % ok, generate uuid as token
         Token = list_to_binary(uuid:uuid_to_string(uuid:get_v4())),
-        Req2 = cowboy_req:set_resp_body(jsx:encode([{ok, Token}]), Req1),
+
+        % save the session
+        session_worker:set_session(Token, Id, 5),
+        Auth = base64:encode_to_string(<<"token:", Token/binary>>),
+        ?DEBUG("Auth: ~p", [Auth]),
+
+        Reply = [{basic, list_to_binary(Auth)}],
+        Req2 = cowboy_req:set_resp_body(jsx:encode(Reply), Req1),
         {true, Req2, State};
       false ->
         {false, Req1, State}
     end
   catch
-    _:Error ->
+    _:{badmatch, Error} ->
       ?ERROR("Error thrown: ~p", [Error]),
-      Req3 = cowboy_req:set_resp_body(jsx:encode([{error, Error}]), Req),
+      Req3 = cowboy_req:set_resp_body(jsx:encode([Error]), Req),
       {false, Req3, State}
   end.
 

@@ -2,6 +2,7 @@
 -include("terakol.hrl").
 
 -export([init/3]).
+-export([is_authorized/2]).
 -export([allowed_methods/2]).
 -export([content_types_provided/2]).
 % -export([content_types_accepted/2]).
@@ -15,6 +16,9 @@
 %%% ===========================================================================
 init(_Transport, _Req, []) ->
   {upgrade, protocol, cowboy_rest}.
+
+is_authorized(Req, State) ->
+  terakol_users_handler:is_authorized(Req, State).
 
 allowed_methods(Req, State) ->
   {[<<"GET">>], Req, State}.
