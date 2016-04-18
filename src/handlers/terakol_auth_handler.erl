@@ -5,7 +5,6 @@
 
 -export([init/3]).
 -export([allowed_methods/2]).
--export([options/2]).
 -export([content_types_provided/2]).
 -export([content_types_accepted/2]).
 
@@ -21,10 +20,6 @@ init(_Transport, _Req, []) ->
 
 allowed_methods(Req, State) ->
   {[<<"GET">>, <<"POST">>, <<"OPTIONS">>], Req, State}.
-
-% for CORS
-options(Req, State) ->
-  {ok, Req, State}.
 
 %  for GET
 content_types_provided(Req, State) ->
