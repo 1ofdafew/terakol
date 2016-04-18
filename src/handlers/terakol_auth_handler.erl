@@ -28,8 +28,7 @@ options(Req, State) ->
 
 %  for GET
 content_types_provided(Req, State) ->
-  Req1 = add_header(Req),
-  {[{{<<"application">>, <<"json">>, []}, list_docs}], Req1, State}.
+  {[{{<<"application">>, <<"json">>, []}, list_docs}], Req, State}.
 
 % for POST
 content_types_accepted(Req, State) ->
@@ -82,7 +81,3 @@ ensure_exists([H|T], Map) ->
       ensure_exists(T, Map)
   end;
 ensure_exists([], _Map) -> ok.
-
-add_header(Req) ->
-  cowboy_req:set_resp_header(
-    <<"access-control-allow-origin">>, <<$*>>, Req).
