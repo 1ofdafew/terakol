@@ -2,3 +2,4 @@ deps
 _rel
 ebin
 terakol.d
+client/node_modules/
