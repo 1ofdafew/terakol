@@ -17,5 +17,15 @@ execute(Req, State) ->
   end.
 
 set_cors_headers(Req) ->
-  cowboy_req:set_resp_header(
-    <<"access-control-allow-origin">>, <<$*>>, Req).
+  Headers = [
+    {<<"access-control-allow-origin">>, <<$*>>},
+    {<<"access-control-allow-headers">>, <<"Origin, X-Requested-With, Content-Type, Accept, Authorization">>}
+  ],
+  add_headers(Req, Headers).
+
+add_headers(Req, Headers) ->
+  F = fun({Tag, Val}, Req1) ->
+        Req2 = cowboy_req:set_resp_header(Tag, Val, Req1),
+        Req2
+      end,
+  lists:foldl(F, Req, Headers).
