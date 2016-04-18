@@ -9,7 +9,7 @@ import SignIn from './components/SignIn'
 // Materialize CSS
 require('jquery')
 require('hammerjs')
-require('velocity-animate')
+// require('velocity-animate')
 require('materialize-css')
 
 var VueRouter = require('vue-router')

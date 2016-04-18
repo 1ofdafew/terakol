@@ -5,8 +5,11 @@
 
 -export([init/3]).
 -export([allowed_methods/2]).
+-export([options/2]).
+-export([content_types_provided/2]).
 -export([content_types_accepted/2]).
 
+-export ([list_docs/2]).
 -export ([process_auth/2]).
 -export ([ensure_exists/2]).
 
@@ -17,11 +20,23 @@ init(_Transport, _Req, []) ->
   {upgrade, protocol, cowboy_rest}.
 
 allowed_methods(Req, State) ->
-  {[<<"POST">>], Req, State}.
+  {[<<"GET">>, <<"POST">>, <<"OPTIONS">>], Req, State}.
+
+% for CORS
+options(Req, State) ->
+  {ok, Req, State}.
+
+%  for GET
+content_types_provided(Req, State) ->
+  Req1 = add_header(Req),
+  {[{{<<"application">>, <<"json">>, []}, list_docs}], Req1, State}.
 
 % for POST
 content_types_accepted(Req, State) ->
   {[{{<<"application">>, <<"json">>, []}, process_auth}], Req, State}.
+
+list_docs(Req, State) ->
+  {[], Req, State}.
 
 process_auth(Req, State) ->
   try
@@ -54,8 +69,8 @@ process_auth(Req, State) ->
   catch
     _:{badmatch, Error} ->
       ?ERROR("Error thrown: ~p", [Error]),
-      Req3 = cowboy_req:set_resp_body(jsx:encode([Error]), Req),
-      {false, Req3, State}
+      Req4 = cowboy_req:set_resp_body(jsx:encode([Error]), Req),
+      {false, Req4, State}
   end.
 
 ensure_exists([H|T], Map) ->
@@ -67,3 +82,7 @@ ensure_exists([H|T], Map) ->
       ensure_exists(T, Map)
   end;
 ensure_exists([], _Map) -> ok.
+
+add_header(Req) ->
+  cowboy_req:set_resp_header(
+    <<"access-control-allow-origin">>, <<$*>>, Req).

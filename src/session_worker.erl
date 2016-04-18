@@ -45,12 +45,14 @@ start_link() ->
 %% ------------------------------------------------------------------
 
 init([]) ->
-  ?DEBUG("Initializing..."),
+  ?INFO("Initializing..."),
   Nodes = [node()|nodes()],
   rpc:multicall(Nodes, application, stop, [mnesia]),
   case mnesia:create_schema(Nodes) of
     ok ->
+      ?INFO("Starting Mnesia..."),
       rpc:multicall(Nodes, application, start, [mnesia]),
+      ?INFO("Creating Mnesia tables..."),
       mnesia:create_table(?SESSION, [
         {attributes, record_info(fields, ?SESSION)},
         {disc_copies, Nodes},
@@ -59,6 +61,7 @@ init([]) ->
       mnesia:wait_for_tables([?SESSION], 1000),
       {ok, #state{nodes = Nodes}};
     {error, _} ->
+      ?INFO("Starting Mnesia..."),
       rpc:multicall(Nodes, application, start, [mnesia]),
       {ok, #state{nodes = Nodes}}
   end.

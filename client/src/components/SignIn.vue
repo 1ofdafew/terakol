@@ -12,14 +12,14 @@
               <div class="row">
                 <div class="input-field ">
                   <i class="material-icons prefix">account_circle</i>
-                  <input id="email" type="email" class="validate" v-model="email">
+                  <input id="email" type="email" class="validate active" v-model="creds.email">
                   <label for="email" data-error="Invalid email..">Email</label>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field ">
                   <i class="material-icons prefix">lock</i>
-                  <input id="password" type="password" class="validate" v-model="password">
+                  <input id="password" type="password" class="validate active" v-model="creds.password">
                   <label for="password">Password</label>
                 </div>
               </div>
@@ -36,16 +36,20 @@
 </template>
 
 <script>
+import auth from '../../lib/auth'
+
 export default {
   data () {
     return {
-      email: '',
-      password: ''
+      creds: {
+        email: 'mhishami@gmail.com',
+        password: 'sasasa12'
+      }
     }
   },
   methods: {
     signIn () {
-      this.$router.go('/')
+      auth.login(this, this.creds, '/')
     }
   }
 }
