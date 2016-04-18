@@ -1,7 +1,7 @@
 <template>
-  <menu></menu>
+  <menu admin="active"></menu>
   <div class="container">
-    <h1>Admin</h1>
+    <h2 class="col s12 header">Admin</h2>
   </div>
 </template>
 

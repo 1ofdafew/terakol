@@ -6,7 +6,14 @@ import Admin from './components/Admin'
 import SignUp from './components/SignUp'
 import SignIn from './components/SignIn'
 
+// Materialize CSS
+require('jquery')
+require('hammerjs')
+require('velocity-animate')
+require('materialize-css')
+
 var VueRouter = require('vue-router')
+
 Vue.use(require('vue-resource'))
 Vue.use(VueRouter)
 

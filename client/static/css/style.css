@@ -1,0 +1,12 @@
+.icon-block {
+    padding: 0 15px;
+}
+.icon-block .material-icons {
+    font-size: inherit;
+}
+.header {
+  color: teal;
+}
+.button-collapse {
+  color: #222;
+}

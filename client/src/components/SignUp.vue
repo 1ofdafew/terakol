@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <div id="box" class="col s12 m4 offset-m4">
+      <div id="box" class="col s12 m6 offset-m3">
         <div class="card">
           <div class="card-content">
             <div class="center-align">
