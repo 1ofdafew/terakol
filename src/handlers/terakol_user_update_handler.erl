@@ -24,7 +24,7 @@ is_authorized(Req, State) ->
   terakol_users_handler:is_authorized(Req, State).
 
 allowed_methods(Req, State) ->
-  {[<<"GET">>, <<"PUT">>, <<"PATCH">>, <<"DELETE">>], Req, State}.
+  {[<<"GET">>, <<"PUT">>, <<"PATCH">>, <<"DELETE">>, <<"OPTIONS">>], Req, State}.
 
 %  for GET
 content_types_provided(Req, State) ->

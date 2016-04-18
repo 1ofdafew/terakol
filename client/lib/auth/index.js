@@ -23,7 +23,7 @@ export default {
     }
     console.log('Credentials: ' + JSON.stringify(data))
     console.log('Posting to URL: ' + URL)
-    context.$http.post(URL, data, this.options('POST'))
+    context.$http.post(URL, data, this.options())
       .then((resp) => {
         var reply = resp.data
         console.log('Reply: ' + JSON.stringify(reply.basic))

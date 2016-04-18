@@ -13,7 +13,7 @@
   {env, [
     {http, [
       {port, 5000},
-      {listeners, 10}
+      {listeners, 1000}
     ]},
     {solr, [
       {post, "/opt/solr/bin/post"}

@@ -20,7 +20,7 @@ init(_Transport, _Req, []) ->
   {upgrade, protocol, cowboy_rest}.
 
 allowed_methods(Req, State) ->
-  {[<<"GET">>, <<"POST">>], Req, State}.
+  {[<<"GET">>, <<"POST">>, <<"OPTIONS">>], Req, State}.
 
 %  for GET
 content_types_provided(Req, State) ->
@@ -40,6 +40,8 @@ is_authorized(Req, State) ->
           % ?DEBUG("Key: ~p, Val: ~p", [Key, Val]),
           case session_worker:get_session(Val) of
             {error, _} ->
+              {{false, <<"Basic realm=\"Terakol API V1.0.0\"">>}, Req1, State};
+            [] ->
               {{false, <<"Basic realm=\"Terakol API V1.0.0\"">>}, Req1, State};
           	[{_Token, Email}] ->
               ?INFO("User ~p authenticated successfully..", [Email]),
@@ -86,7 +88,7 @@ create_user(Req, State) ->
     Id = maps:get(<<"id">>, Data),
     Payload = [
       {id, Id},
-      {password, erlpass:hash(Password)},
+      {password, erlpass:hash(Password, 5)},
       {realm, <<"user">>},
       {created_at, iso8601:format(calendar:local_time())},
       {updated_at, iso8601:format(calendar:local_time())}

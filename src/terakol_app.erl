@@ -19,7 +19,7 @@ start_phase(start_listeners, _StartType, []) ->
     {'_', [
       {<<"/api/auth">>, terakol_auth_handler, []},
       {<<"/api/users">>, terakol_users_handler, []},
-      {<<"/api/users/:id">>, terakol_users_update_handler, []},
+      {<<"/api/users/:id">>, terakol_user_update_handler, []},
       {<<"/api/media">>, terakol_media_handler, []},
       {<<"/api/upload">>, terakol_upload_handler, []},
 
