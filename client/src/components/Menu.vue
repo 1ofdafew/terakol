@@ -24,16 +24,20 @@
 </template>
 
 <script>
-var $ = window.jQuery = require('jquery')
-
 export default {
   ready: function () {
-    $('.button-collapse').sideNav({
-      menuWidth: 300,
-      closeOnClick: true
-    })
+    var auth = JSON.parse(window.localStorage.getItem('auth'))
+    console.log('Auth: ' + auth)
+    if (auth) {
+      this.auth = auth
+    }
   },
-  props: [ 'home', 'admin' ]
+  props: [ 'home', 'admin' ],
+  data () {
+    return {
+      auth: {}
+    }
+  }
 }
 </script>
 

@@ -1,0 +1,26 @@
+{
+  "name": "terakol",
+  "authors": [
+    "Hisham Ismail <mhishami@gmail.com>"
+  ],
+  "description": "static lib for terakol",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.3",
+    "knockout-mapping": "^2.4.1",
+    "knockout": "^3.4.0",
+    "Materialize": "materialize#^0.97.6",
+    "roboto-fontface": "^0.4.5"
+  }
+}

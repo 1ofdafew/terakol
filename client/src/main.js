@@ -6,11 +6,8 @@ import Admin from './components/Admin'
 import SignUp from './components/SignUp'
 import SignIn from './components/SignIn'
 
-// Materialize CSS
-require('jquery')
-require('hammerjs')
-// require('velocity-animate')
-require('materialize-css')
+import Material from 'vue-material'
+Material.regAll(Vue)
 
 var VueRouter = require('vue-router')
 
@@ -25,9 +22,3 @@ router.map({
   '/signin': { component: SignIn }
 })
 router.start(App, '#app')
-
-/* eslint-disable no-new */
-// new Vue({
-//   el: 'body',
-//   components: { App }
-// })

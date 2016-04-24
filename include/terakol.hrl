@@ -16,6 +16,9 @@
 -define(JSX_OPTS, [{indent, 2}]).
 -define(JSX_MAPS, [return_maps]).
 
+-define (SOLR_HOME, <<"/opt/solr">>).
+-define (SOLR_BUCKET, <<"/opt/solr/server/solr">>).
+
 % iBrowse components
 -define(IB_OPTS, [{response_format, binary}]).
 -define(IB_TIMEOUT, 10000).

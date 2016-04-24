@@ -18,8 +18,8 @@ execute(Req, State) ->
 
 set_cors_headers(Req) ->
   Headers = [
-    {<<"Access-Control-Allow-Origin">>, <<$*>>},
-    {<<"Access-Control-Allow-Headers">>, <<"Origin, X-Requested-With, Content-Type, Accept, Authorization">>}
+    {<<"access-control-allow-origin">>, <<$*>>},
+    {<<"access-control-allow-headers">>, <<"origin, x-requested-with, content-type, accept, authorization">>}
   ],
   add_headers(Req, Headers).
 

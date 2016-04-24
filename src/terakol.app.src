@@ -4,7 +4,8 @@
 	{modules, []},
 	{registered, [terakol_sup]},
 	{applications, [
-    kernel, stdlib, mnesia, cowboy, lager, jsx, sync, iso8601, uuid, erlpass, ibrowse
+    kernel, stdlib, mnesia, cowboy, lager, jsx, sync, iso8601, uuid, erlpass,
+    ibrowse, erlydtl
   ]},
 	{mod, {terakol_app, []}},
   {start_phases, [
@@ -13,7 +14,7 @@
   {env, [
     {http, [
       {port, 5000},
-      {listeners, 1000}
+      {listeners, 10}
     ]},
     {solr, [
       {post, "/opt/solr/bin/post"}

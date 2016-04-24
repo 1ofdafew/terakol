@@ -20,13 +20,15 @@ start_phase(start_listeners, _StartType, []) ->
       {<<"/api/auth">>, terakol_auth_handler, []},
       {<<"/api/users">>, terakol_users_handler, []},
       {<<"/api/users/:id">>, terakol_user_update_handler, []},
+      {<<"/api/bucket/:action">>, terakol_bucket_handler, []},
       {<<"/api/media">>, terakol_media_handler, []},
       {<<"/api/upload">>, terakol_upload_handler, []},
 
       % our admin UI
-      {<<"/">>, cowboy_static, {priv_file, terakol, <<"dist/index.html">>}},
+      {<<"/admin/[...]">>, terakol_admin_handler, []},
+      % {<<"/">>, cowboy_static, {priv_file, terakol, <<"dist/index.html">>}},
 			{<<"/static/[...]">>, cowboy_static, {
-        priv_dir, terakol, <<"dist/static">>, [
+        priv_dir, terakol, <<"static">>, [
           {mimetypes, cow_mimetypes, all}
       ]}}
     ]}

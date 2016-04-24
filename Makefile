@@ -3,7 +3,7 @@ PROJECT_DESCRIPTION = A REST Server atop Solr Engine
 PROJECT_VERSION = 1.0.0
 CONFIG ?= rel/sys.config
 
-DEPS = cowboy lager jsx sync iso8601 uuid erlpass ibrowse 
+DEPS = cowboy lager jsx sync iso8601 uuid erlpass ibrowse erlydtl
 SHELL_OPTS = -s ${PROJECT} -config ${CONFIG}
 
 dep_cowboy = git https://github.com/ninenines/cowboy.git 1.0.4

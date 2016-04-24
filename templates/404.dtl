@@ -1,0 +1,11 @@
+{% extends "template.dtl" %}
+
+{% block content %}
+
+  <div class="container">
+    <h1>Oppss!</h1>
+    <h4 class="lead">Something went wrong.</h4>
+    <h5>{{ error }}</h5>
+  </div>
+
+{% endblock %}

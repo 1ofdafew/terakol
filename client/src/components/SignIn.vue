@@ -36,20 +36,26 @@
 </template>
 
 <script>
-import auth from '../../lib/auth'
+import auth from '../lib/auth'
 
 export default {
+  ready () {
+  },
   data () {
     return {
+      auth: false,
       creds: {
-        email: 'mhishami@gmail.com',
-        password: 'sasasa12'
+        email: '',
+        password: ''
       }
     }
   },
   methods: {
     signIn () {
       auth.login(this, this.creds, '/')
+      if (this.auth === false) {
+        console.log('Invalid login...')
+      }
     }
   }
 }
