@@ -9,7 +9,8 @@
   ]},
 	{mod, {terakol_app, []}},
   {start_phases, [
-    {start_listeners, []}
+    {start_listeners, []},
+    {init_buckets, []}
   ]},
   {env, [
     {http, [

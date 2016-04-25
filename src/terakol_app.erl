@@ -1,6 +1,8 @@
 -module(terakol_app).
 -behaviour(application).
 
+-include ("terakol.hrl").
+
 -export([start/2]).
 -export([stop/1]).
 -export([start_phase/3]).
@@ -41,6 +43,10 @@ start_phase(start_listeners, _StartType, []) ->
     {timeout, 12000}
   ],
   cowboy:start_http(terakol_http, Listeners, RanchOptions, CowboyOptions),
+  ok;
+
+start_phase(init_buckets, _StartType, []) ->
+  ?DEBUG("Initing buckets..."),
   ok.
 
   %
